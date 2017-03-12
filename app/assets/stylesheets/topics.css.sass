@@ -1,0 +1,81 @@
+@mixin no-bullets-list
+  list-style: none
+  padding-left: 0
+
+ul#questions
+  @include no-bullets-list
+  .counters
+    .views
+      color: gray
+    .answers.empty
+      color: darkred
+    .votes, .answers, .views
+      width: 60px
+      text-align: center
+      display: inline-block
+      .mini-counts
+        font-size: 1.5em
+        font-weight: bold
+  .summary
+    h3
+      margin-top: 0
+    .last-activity
+      float: right
+
+.votecell
+  width: 60px
+  vertical-align: top
+  font-size: 2em
+  // .vote
+  //   div
+  //     height: 35px
+  span
+    position: relative
+    top: 5px
+
+.user-info
+  font-size: .9em
+  float: right
+  background-color: aliceblue
+  td
+    padding: 0 5px
+  .avatar
+    width: 35px
+  .reputation-score
+    font-weight: bold
+
+#answers ul
+  @include no-bullets-list
+
+.comments-list
+  margin: 0
+  @include no-bullets-list
+  .comment
+    font-size: 0.9em
+    padding: 3px 5px
+    border-bottom: 1px dotted lightgray
+    &:hover
+      background-color: aliceblue
+    &:first-child
+      border-top: 1px dotted gray
+      margin-top: 10px
+    &:last-child
+      margin-bottom: 10px
+    time
+      color: gray
+
+.question-info
+  .value
+    font-weight: bold
+    padding-left: 5px
+
+.accept-answer
+  display: none
+  p
+    padding: 15px
+
+.select2-choices.focus
+  border-color: #66afe9
+  outline: 0
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6)

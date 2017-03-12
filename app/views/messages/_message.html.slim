@@ -1,0 +1,65 @@
+- message = message.decorate
+table.fw id="message-#{message.id}"
+  tr
+    td.votecell rowspan="2"
+      .vote
+        .text-center
+          = message.link_to :voteup
+        .score.text-center = message.score
+        .text-center
+          = message.link_to :votedown
+      - if message.accepted
+        .text-success.text-center
+          span.glyphicon.glyphicon-ok title='accepted'
+    td.postcell
+      = markdown(message.body)
+      - if message.has_attachments?
+        p: strong
+          ' Attachments:
+          = message.attachments_list
+      - unless message.answer
+        p.tags
+          = message.topic.decorate.tags_list
+      table.user-info
+        tr: td colspan='2'
+          => message.answer ? 'answered' : 'asked'
+          = timeago_tag message.created_at
+        tr
+          td.avatar
+            = gravatar_image_tag message.author.email,
+              alt: message.author.name, gravatar: { size: 30 }
+          td
+            => link_to message.author.name, user_path(message.author)
+            br
+            span.reputation-score title='reputation score'
+              = message.author.reputation
+      - if user_signed_in?
+        p
+          - if can? :update, message
+            - edit_link = true
+            = message.link_to_edit
+          - if can? :accept, message
+            - if edit_link
+              ' &nbsp;|
+            = link_to 'accept', 'javascript:void(0)',
+              class: 'accept-answer-link',
+              data: { question_id: message.topic.id, answer_id: message.id }
+          - unless message.answer?
+            - if edit_link
+              ' &nbsp;|
+            = message.link_to_subscribtion
+  tr
+    td.comments
+      ul.comments-list
+        - if message.has_comments?
+          = render 'topics/comments', comments: message.comments
+      - if user_signed_in?
+        = link_to 'add comment', 'javascript:void();',
+          class: message.add_comment_class, data: { message_id: message.id }
+        - unless message.answer
+          = bootstrap_form_for message.comments.build,
+            url: message_comments_path(message), remote: true,
+            data: { type: :json }, html: { style: 'display: none;' } do |f|
+            = f.text_area :body, label: 'Your comment'
+            => f.primary 'Post your comment', data: { disable_with: 'Submitting...' }
+            = f.button 'Cancel', class: 'btn btn-default cancel-comment'

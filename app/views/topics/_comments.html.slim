@@ -1,0 +1,7 @@
+- comments.each do |comment|
+  - if comment.persisted?
+    li.comment
+      => comment.body
+      ' &mdash;
+      => link_to comment.author.name, user_path(comment.author)
+      = timeago_tag comment.created_at

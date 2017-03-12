@@ -1,0 +1,9 @@
+- if params[:search]
+  h1 Search results for '#{params[:search]}'
+- else
+  h1 Questions
+hr
+.row
+  .col-md-9
+    ul#questions = render @topics
+  .col-md-3
